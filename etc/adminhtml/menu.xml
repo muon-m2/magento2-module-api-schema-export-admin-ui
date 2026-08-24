@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <!-- The ACL resource is owned by Muon_ApiSchemaExport; this module only references it. -->
+        <add id="Muon_ApiSchemaExportAdminUi::export"
+             title="API Schema Export"
+             translate="title"
+             module="Muon_ApiSchemaExportAdminUi"
+             sortOrder="90"
+             parent="Magento_Backend::system"
+             action="muon_apischemaexport/export/index"
+             resource="Muon_ApiSchemaExport::export"/>
+    </menu>
+</config>

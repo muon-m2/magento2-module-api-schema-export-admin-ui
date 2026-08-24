@@ -1,0 +1,28 @@
+{
+    "name": "muon/module-api-schema-export-admin-ui",
+    "description": "Admin screen for Muon_ApiSchemaExport: pick modules and formats under System, and download the generated API description files.",
+    "type": "magento2-module",
+    "license": "OSL-3.0",
+    "version": "1.0.0",
+    "authors": [
+        {
+            "name": "Serge Autushka",
+            "email": "s.autushka@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "~8.1.0 || ~8.2.0 || ~8.3.0 || ~8.4.0 || ~8.5.0",
+        "ext-zip": ">=1.15.0",
+        "magento/framework": "^103.0.7",
+        "magento/module-backend": "^102.0.7",
+        "muon/module-api-schema-export": "^1.0.0"
+    },
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Muon\\ApiSchemaExportAdminUi\\": ""
+        }
+    }
+}

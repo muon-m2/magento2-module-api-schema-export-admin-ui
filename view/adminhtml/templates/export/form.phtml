@@ -1,0 +1,152 @@
+<?php
+/**
+ * Copyright © Muon. All rights reserved.
+ * See LICENSE.txt for license details.
+ */
+
+declare(strict_types=1);
+
+/** @var \Muon\ApiSchemaExportAdminUi\Block\Adminhtml\Export\Form $block */
+/** @var \Magento\Framework\Escaper $escaper */
+?>
+<form action="<?= $escaper->escapeUrl($block->getFormActionUrl()) ?>" method="post" id="muon-api-schema-export-form">
+    <?= $block->getBlockHtml('formkey') ?>
+
+    <div class="admin__fieldset-wrapper-content">
+        <fieldset class="admin__fieldset">
+            <legend class="admin__legend"><span><?= $escaper->escapeHtml(__('Modules')) ?></span></legend>
+            <br>
+
+            <div class="admin__field _required">
+                <label class="admin__field-label" for="selectors">
+                    <span><?= $escaper->escapeHtml(__('Module selectors')) ?></span>
+                </label>
+                <div class="admin__field-control">
+                    <input type="text"
+                           id="selectors"
+                           name="selectors"
+                           class="admin__control-text"
+                           list="muon-module-names"
+                           required
+                           value="<?= $escaper->escapeHtmlAttr($block->getFieldValue('selectors')) ?>"
+                           placeholder="<?= $escaper->escapeHtmlAttr(
+                               __('Muon, Magento_Catalog*, Magento_Sales')
+                           ) ?>">
+                    <datalist id="muon-module-names">
+                        <?php foreach ($block->getModuleNames() as $moduleName): ?>
+                            <option value="<?= $escaper->escapeHtmlAttr($moduleName) ?>"></option>
+                        <?php endforeach; ?>
+                    </datalist>
+                    <div class="admin__field-note">
+                        <?= $escaper->escapeHtml(
+                            __('Comma-separated. Exact (Muon_FileAttachment), namespace (Muon), '
+                                . 'wildcard (Magento_Catalog*), or * for everything.')
+                        ) ?>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+
+        <fieldset class="admin__fieldset">
+            <legend class="admin__legend"><span><?= $escaper->escapeHtml(__('Output')) ?></span></legend>
+            <br>
+
+            <div class="admin__field _required">
+                <label class="admin__field-label">
+                    <span><?= $escaper->escapeHtml(__('Formats')) ?></span>
+                </label>
+                <div class="admin__field-control">
+                    <?php foreach ($block->getFormats() as $code => $label): ?>
+                        <div class="admin__field admin__field-option">
+                            <input type="checkbox"
+                                   class="admin__control-checkbox"
+                                   id="format-<?= $escaper->escapeHtmlAttr($code) ?>"
+                                   name="formats[]"
+                                   value="<?= $escaper->escapeHtmlAttr($code) ?>"
+                                <?= $block->isFormatSelected((string)$code) ? 'checked' : '' ?>>
+                            <label class="admin__field-label"
+                                   for="format-<?= $escaper->escapeHtmlAttr($code) ?>">
+                                <span><?= $escaper->escapeHtml($label) ?></span>
+                            </label>
+                        </div>
+                    <?php endforeach; ?>
+                    <div class="admin__field-note">
+                        <?= $escaper->escapeHtml(
+                            __('Selecting more than one format downloads a ZIP archive.')
+                        ) ?>
+                    </div>
+                </div>
+            </div>
+
+            <div class="admin__field">
+                <label class="admin__field-label" for="filename">
+                    <span><?= $escaper->escapeHtml(__('File name')) ?></span>
+                </label>
+                <div class="admin__field-control">
+                    <input type="text"
+                           id="filename"
+                           name="filename"
+                           class="admin__control-text"
+                           value="<?= $escaper->escapeHtmlAttr($block->getFieldValue('filename')) ?>"
+                           placeholder="<?= $escaper->escapeHtmlAttr(__('Derived from the selection')) ?>">
+                    <div class="admin__field-note">
+                        <?= $escaper->escapeHtml(
+                            __('Without extension. Letters, digits, dots, dashes and underscores only.')
+                        ) ?>
+                    </div>
+                </div>
+            </div>
+
+            <div class="admin__field">
+                <label class="admin__field-label" for="base_url">
+                    <span><?= $escaper->escapeHtml(__('Base URL')) ?></span>
+                </label>
+                <div class="admin__field-control">
+                    <input type="text"
+                           id="base_url"
+                           name="base_url"
+                           class="admin__control-text"
+                           value="<?= $escaper->escapeHtmlAttr($block->getFieldValue('base_url')) ?>"
+                           placeholder="<?= $escaper->escapeHtmlAttr(__('Default store view base URL')) ?>">
+                </div>
+            </div>
+
+            <div class="admin__field">
+                <label class="admin__field-label"><span><?= $escaper->escapeHtml(__('Options')) ?></span></label>
+                <div class="admin__field-control">
+                    <div class="admin__field admin__field-option">
+                        <input type="checkbox" class="admin__control-checkbox" id="yaml" name="yaml" value="1"
+                               <?= $block->isFieldChecked('yaml') ? 'checked' : '' ?>>
+                        <label class="admin__field-label" for="yaml">
+                            <span><?= $escaper->escapeHtml(
+                                __('YAML instead of JSON (OpenAPI and Swagger only)')
+                            ) ?></span>
+                        </label>
+                    </div>
+                    <div class="admin__field admin__field-option">
+                        <input type="checkbox" class="admin__control-checkbox" id="split" name="split" value="1"
+                               <?= $block->isFieldChecked('split') ? 'checked' : '' ?>>
+                        <label class="admin__field-label" for="split">
+                            <span><?= $escaper->escapeHtml(__('One file per module')) ?></span>
+                        </label>
+                    </div>
+                    <div class="admin__field admin__field-option">
+                        <input type="checkbox" class="admin__control-checkbox" id="no_async" name="no_async" value="1"
+                               <?= $block->isFieldChecked('no_async') ? 'checked' : '' ?>>
+                        <label class="admin__field-label" for="no_async">
+                            <span><?= $escaper->escapeHtml(__('Omit asynchronous and bulk route variants')) ?></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+    </div>
+
+    <div class="page-actions">
+        <button type="submit"
+                class="action-primary"
+                title="<?= $escaper->escapeHtmlAttr(__('Generate and Download')) ?>">
+            <span><?= $escaper->escapeHtml(__('Generate and Download')) ?></span>
+        </button>
+    </div>
+</form>

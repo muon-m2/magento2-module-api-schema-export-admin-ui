@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!-- Adminhtml area only: an administrator must not be handed a document describing endpoints
+         their role cannot call. The console command runs in the global area and stays unfiltered. -->
+    <type name="Muon\ApiSchemaExport\Api\SurfaceResolverInterface">
+        <plugin name="muon_api_schema_export_admin_acl_filter"
+                type="Muon\ApiSchemaExportAdminUi\Plugin\RestrictSurfaceToAdminAcl"
+                sortOrder="10"/>
+    </type>
+</config>
