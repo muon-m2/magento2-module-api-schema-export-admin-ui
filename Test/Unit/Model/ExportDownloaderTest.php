@@ -26,16 +26,10 @@ class ExportDownloaderTest extends TestCase
     /**
      * @var MockObject&FileFactory
      */
-    /**
-     * @var MockObject
-     */
     private MockObject $fileFactory;
 
     /**
      * @var MockObject&ZipPackager
-     */
-    /**
-     * @var MockObject
      */
     private MockObject $zipPackager;
 

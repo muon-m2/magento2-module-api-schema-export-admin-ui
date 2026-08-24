@@ -28,7 +28,7 @@ declare(strict_types=1);
                            class="admin__control-text"
                            list="muon-module-names"
                            required
-                           value="<?= $escaper->escapeHtmlAttr($block->getData('selectors') ?? '') ?>"
+                           value="<?= $escaper->escapeHtmlAttr($block->getFieldValue('selectors')) ?>"
                            placeholder="<?= $escaper->escapeHtmlAttr(
                                __('Muon, Magento_Catalog*, Magento_Sales')
                            ) ?>">
@@ -63,7 +63,7 @@ declare(strict_types=1);
                                    id="format-<?= $escaper->escapeHtmlAttr($code) ?>"
                                    name="formats[]"
                                    value="<?= $escaper->escapeHtmlAttr($code) ?>"
-                                <?= $code === 'openapi' ? 'checked' : '' ?>>
+                                <?= $block->isFormatSelected((string)$code) ? 'checked' : '' ?>>
                             <label class="admin__field-label"
                                    for="format-<?= $escaper->escapeHtmlAttr($code) ?>">
                                 <span><?= $escaper->escapeHtml($label) ?></span>
@@ -87,7 +87,7 @@ declare(strict_types=1);
                            id="filename"
                            name="filename"
                            class="admin__control-text"
-                           value="<?= $escaper->escapeHtmlAttr($block->getData('filename') ?? '') ?>"
+                           value="<?= $escaper->escapeHtmlAttr($block->getFieldValue('filename')) ?>"
                            placeholder="<?= $escaper->escapeHtmlAttr(__('Derived from the selection')) ?>">
                     <div class="admin__field-note">
                         <?= $escaper->escapeHtml(
@@ -106,7 +106,7 @@ declare(strict_types=1);
                            id="base_url"
                            name="base_url"
                            class="admin__control-text"
-                           value="<?= $escaper->escapeHtmlAttr($block->getData('base_url') ?? '') ?>"
+                           value="<?= $escaper->escapeHtmlAttr($block->getFieldValue('base_url')) ?>"
                            placeholder="<?= $escaper->escapeHtmlAttr(__('Default store view base URL')) ?>">
                 </div>
             </div>
@@ -115,7 +115,8 @@ declare(strict_types=1);
                 <label class="admin__field-label"><span><?= $escaper->escapeHtml(__('Options')) ?></span></label>
                 <div class="admin__field-control">
                     <div class="admin__field admin__field-option">
-                        <input type="checkbox" class="admin__control-checkbox" id="yaml" name="yaml" value="1">
+                        <input type="checkbox" class="admin__control-checkbox" id="yaml" name="yaml" value="1"
+                               <?= $block->isFieldChecked('yaml') ? 'checked' : '' ?>>
                         <label class="admin__field-label" for="yaml">
                             <span><?= $escaper->escapeHtml(
                                 __('YAML instead of JSON (OpenAPI and Swagger only)')
@@ -123,13 +124,15 @@ declare(strict_types=1);
                         </label>
                     </div>
                     <div class="admin__field admin__field-option">
-                        <input type="checkbox" class="admin__control-checkbox" id="split" name="split" value="1">
+                        <input type="checkbox" class="admin__control-checkbox" id="split" name="split" value="1"
+                               <?= $block->isFieldChecked('split') ? 'checked' : '' ?>>
                         <label class="admin__field-label" for="split">
                             <span><?= $escaper->escapeHtml(__('One file per module')) ?></span>
                         </label>
                     </div>
                     <div class="admin__field admin__field-option">
-                        <input type="checkbox" class="admin__control-checkbox" id="no_async" name="no_async" value="1">
+                        <input type="checkbox" class="admin__control-checkbox" id="no_async" name="no_async" value="1"
+                               <?= $block->isFieldChecked('no_async') ? 'checked' : '' ?>>
                         <label class="admin__field-label" for="no_async">
                             <span><?= $escaper->escapeHtml(__('Omit asynchronous and bulk route variants')) ?></span>
                         </label>

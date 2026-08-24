@@ -13,6 +13,7 @@ use Magento\Directory\Helper\Data as DirectoryHelper;
 use Magento\Framework\App\ObjectManager;
 use Magento\Framework\Json\Helper\Data as JsonHelper;
 use Magento\Framework\ObjectManagerInterface;
+use Magento\Framework\App\Request\DataPersistorInterface;
 use Magento\Framework\Module\ModuleListInterface;
 use Magento\Framework\Phrase;
 use Magento\Framework\UrlInterface;
@@ -86,11 +87,58 @@ class FormTest extends TestCase
     }
 
     /**
+     * A failed submission is restored into the form, then cleared so a later visit is blank.
+     *
+     * Without this the user re-types the selector and re-ticks every format after any validation
+     * error, which is the difference between a usable screen and a hostile one.
+     */
+    public function testPersistedSubmissionIsRestoredThenCleared(): void
+    {
+        $persistor = $this->createMock(DataPersistorInterface::class);
+        $persistor->method('get')->willReturn([
+            'selectors' => 'Muon, Magento_Catalog*',
+            'filename' => 'my-export',
+            'formats' => ['http', 'swagger'],
+            'yaml' => '1',
+        ]);
+        // Read once and dropped: leaving it behind would refill an unrelated later visit.
+        $persistor->expects(self::once())->method('clear')->with(Form::FORM_DATA_KEY);
+
+        $block = $this->makeBlock([], [], $persistor);
+
+        self::assertSame('Muon, Magento_Catalog*', $block->getFieldValue('selectors'));
+        self::assertSame('my-export', $block->getFieldValue('filename'));
+        self::assertSame('', $block->getFieldValue('base_url'));
+        self::assertTrue($block->isFormatSelected('http'));
+        self::assertTrue($block->isFormatSelected('swagger'));
+        self::assertFalse($block->isFormatSelected('openapi'));
+        self::assertTrue($block->isFieldChecked('yaml'));
+        self::assertFalse($block->isFieldChecked('split'));
+    }
+
+    /**
+     * With nothing persisted the form opens on its default selection.
+     */
+    public function testFreshFormFallsBackToTheDefaultFormat(): void
+    {
+        $persistor = $this->createMock(DataPersistorInterface::class);
+        $persistor->method('get')->willReturn(null);
+        $persistor->expects(self::never())->method('clear');
+
+        $block = $this->makeBlock([], [], $persistor);
+
+        self::assertSame('', $block->getFieldValue('selectors'));
+        self::assertTrue($block->isFormatSelected('openapi'));
+        self::assertFalse($block->isFormatSelected('http'));
+    }
+
+    /**
      * @param array<string,string> $formats
      * @param string[] $moduleNames
+     * @param \Magento\Framework\App\Request\DataPersistorInterface|null $persistor
      * @return \Muon\ApiSchemaExportAdminUi\Block\Adminhtml\Export\Form
      */
-    private function makeBlock(array $formats, array $moduleNames): Form
+    private function makeBlock(array $formats, array $moduleNames, ?DataPersistorInterface $persistor = null): Form
     {
         $renderers = [];
         foreach ($formats as $code => $label) {
@@ -113,6 +161,11 @@ class FormTest extends TestCase
         $context = $this->createStub(Context::class);
         $context->method('getUrlBuilder')->willReturn($urlBuilder);
 
-        return new Form($context, $pool, $moduleList);
+        if ($persistor === null) {
+            $persistor = $this->createStub(DataPersistorInterface::class);
+            $persistor->method('get')->willReturn(null);
+        }
+
+        return new Form($context, $pool, $moduleList, $persistor);
     }
 }

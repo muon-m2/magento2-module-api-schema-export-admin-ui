@@ -55,17 +55,21 @@ class ZipPackager
      * Write the files into an archive and return its path relative to var.
      *
      * @param array<string,string> $files Filename to contents.
-     * @param string $archiveName Base name, without extension. Already sanitised by the caller.
+     * @param string $archiveName Base name, without extension. Sanitised again here regardless.
      * @return string Path relative to the var directory, suitable for FileFactory.
      * @throws \Magento\Framework\Exception\LocalizedException When the archive cannot be created.
      * @throws \Magento\Framework\Exception\FileSystemException
      */
     public function pack(array $files, string $archiveName): string
     {
+        // Sanitised again here rather than trusting the caller: this method is public, so a
+        // future caller could pass unfiltered input straight through and write outside var/tmp.
+        $safeName = $this->filenameSanitizer->sanitizeBase($archiveName);
+
         $varDirectory = $this->filesystem->getDirectoryWrite(DirectoryList::VAR_DIR);
         $varDirectory->create(self::STAGING_DIRECTORY);
 
-        $relativePath = self::STAGING_DIRECTORY . '/' . $archiveName . '.zip';
+        $relativePath = self::STAGING_DIRECTORY . '/' . $safeName . '.zip';
         $absolutePath = $varDirectory->getAbsolutePath($relativePath);
 
         $archive = new ZipArchive();
@@ -77,7 +81,13 @@ class ZipPackager
         }
 
         foreach ($files as $filename => $contents) {
-            $archive->addFromString((string)$filename, $contents);
+            // A failed entry would otherwise stream a ZIP that is silently missing a file.
+            if (!$archive->addFromString((string)$filename, $contents)) {
+                $archive->close();
+                throw new LocalizedException(
+                    __('Could not add "%1" to the archive.', (string)$filename)
+                );
+            }
         }
 
         if (!$archive->close()) {
