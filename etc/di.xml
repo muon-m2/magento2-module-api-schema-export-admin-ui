@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!-- This module's wiring is deliberately area-scoped and lives in etc/adminhtml/di.xml.
+         The ACL filter must apply to admin requests only: the console command runs in the global
+         area and stays unfiltered, because shell access already implies full trust. -->
+</config>

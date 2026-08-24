@@ -1,0 +1,25 @@
+"Could not generate the export. See the system log for details.","Could not generate the export. See the system log for details."
+"API Schema Export","API Schema Export"
+"Your role is not allowed to call any endpoint in the selected modules.","Your role is not allowed to call any endpoint in the selected modules."
+"Enter at least one module selector.","Enter at least one module selector."
+"Select at least one output format.","Select at least one output format."
+"Unknown format(s): %1. Available: %2.","Unknown format(s): %1. Available: %2."
+"Could not create the archive (code %1).","Could not create the archive (code %1)."
+"Could not finalise the archive.","Could not finalise the archive."
+Modules,Modules
+"Module selectors","Module selectors"
+"Muon, Magento_Catalog*, Magento_Sales","Muon, Magento_Catalog*, Magento_Sales"
+"Comma-separated. Exact (Muon_FileAttachment), namespace (Muon), wildcard (Magento_Catalog*), or * for everything.","Comma-separated. Exact (Muon_FileAttachment), namespace (Muon), wildcard (Magento_Catalog*), or * for everything."
+Output,Output
+Formats,Formats
+"Selecting more than one format downloads a ZIP archive.","Selecting more than one format downloads a ZIP archive."
+"File name","File name"
+"Derived from the selection","Derived from the selection"
+"Without extension. Letters, digits, dots, dashes and underscores only.","Without extension. Letters, digits, dots, dashes and underscores only."
+"Base URL","Base URL"
+"Default store view base URL","Default store view base URL"
+Options,Options
+"YAML instead of JSON (OpenAPI and Swagger only)","YAML instead of JSON (OpenAPI and Swagger only)"
+"One file per module","One file per module"
+"Omit asynchronous and bulk route variants","Omit asynchronous and bulk route variants"
+"Generate and Download","Generate and Download"

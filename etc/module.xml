@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
+    <!-- Sequenced after the core module, whose ACL resource this one references. -->
+    <module name="Muon_ApiSchemaExportAdminUi">
+        <sequence>
+            <module name="Muon_ApiSchemaExport"/>
+            <module name="Magento_Backend"/>
+        </sequence>
+    </module>
+</config>
