@@ -51,7 +51,7 @@ package matrix and the two caveats that apply to 2.4.7.
 
 ## Requirements
 
-PHP ~8.1 – ~8.5 · `ext-zip` >= 1.15 · `magento/framework` ^103.0.7 ·
+PHP ~8.1 – ~8.5 · `ext-zip` (any version) · `magento/framework` ^103.0.7 ·
 `magento/module-backend` ^102.0.7 · `muon/module-api-schema-export` ^1.0.0
 
 ## License
