@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<!--
+  Loaded on every admin page because the menu is on every admin page. Carries the MUON hub icon
+  rule only. Inert without Muon_AdminMenu installed, since nothing else renders that data-ui-id —
+  which is why this module needs no dependency on it.
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="Muon_ApiSchemaExportAdminUi::css/admin-menu.css"/>
+    </head>
+</page>

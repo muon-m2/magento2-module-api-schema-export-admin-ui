@@ -1,0 +1,27 @@
+/**
+ * MUON hub icon for Muon_ApiSchemaExportAdminUi.
+ *
+ * The group id Muon_AdminMenu generates is deterministic: "Muon_AdminMenu::group_" plus the
+ * lowercased module name, which Magento renders as a data-ui-id with "-" separators. So
+ * Muon_ApiSchemaExportAdminUi becomes
+ * menu-muon-adminmenu-group-muon-apischemaexportadminui.
+ *
+ * Two constraints, both from Muon_AdminMenu's developer guide:
+ *
+ *   1. The selector carries a TYPE (#nav li[data-ui-id=...]) so it outranks the hub's own fallback
+ *      glyph. Magento emits <css> links in module load order, which is alphabetical, and
+ *      Muon_AdminMenu sorts before Muon_ApiSchemaExportAdminUi — without the extra specificity the
+ *      fallback would win.
+ *   2. Only mask-image is set here. Size, spacing and paint come from the shared geometry rule the
+ *      hub already applies to every group via its ^= prefix selector.
+ *
+ * A level-1 group heading renders as <strong class="submenu-group-title">, NOT an <a>, so a
+ * "> a:before" rule would match nothing at all and fail silently.
+ *
+ * Icon: Tabler `api` — https://tabler.io/icons. The MIT notice its licence requires is
+ * reproduced in docs/third-party-notices.md.
+ */
+#nav li[data-ui-id="menu-muon-adminmenu-group-muon-apischemaexportadminui"] > .submenu-group-title:before {
+    -webkit-mask-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22currentColor%22%20stroke-width%3D%222.4%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M4%2013h5%22%2F%3E%3Cpath%20d%3D%22M12%2016v-8h3a2%202%200%200%201%202%202v1a2%202%200%200%201%20-2%202h-3%22%2F%3E%3Cpath%20d%3D%22M20%208v8%22%2F%3E%3Cpath%20d%3D%22M9%2016v-5.5a2.5%202.5%200%200%200%20-5%200v5.5%22%2F%3E%3C%2Fsvg%3E");
+    mask-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22currentColor%22%20stroke-width%3D%222.4%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M4%2013h5%22%2F%3E%3Cpath%20d%3D%22M12%2016v-8h3a2%202%200%200%201%202%202v1a2%202%200%200%201%20-2%202h-3%22%2F%3E%3Cpath%20d%3D%22M20%208v8%22%2F%3E%3Cpath%20d%3D%22M9%2016v-5.5a2.5%202.5%200%200%200%20-5%200v5.5%22%2F%3E%3C%2Fsvg%3E");
+}
