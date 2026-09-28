@@ -3,7 +3,7 @@
     "description": "Admin screen for Muon_ApiSchemaExport: pick modules and formats under System, and download the generated API description files.",
     "type": "magento2-module",
     "license": "OSL-3.0",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "authors": [
         {
             "name": "Serge Autushka",
